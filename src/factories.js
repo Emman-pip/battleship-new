@@ -24,6 +24,16 @@ const Gameboard = () => {
 
   const hits = [];
 
+  const reportWin = () => {
+    let flag = true;
+    ships.map((e) => {
+      if (!String(hits).includes(String(e))) {
+        flag = false;
+      }
+    });
+    return flag;
+  };
+
   const shipMaker = (start, end) => {
     if (start[0] == end[0]) {
       return Ship(end[1] - start[1] + 1);
@@ -74,6 +84,7 @@ const Gameboard = () => {
       hits.push([coord1, coord2]);
       return false;
     } else if (String(ships).includes(String([coord1, coord2]))) {
+      hits.push([coord1, coord2]);
       ships.map((e) => {
         if (String(e).includes([coord1, coord2])) {
           e[0].hit();
@@ -86,7 +97,7 @@ const Gameboard = () => {
   const getOccupied = () => occupied;
   const getShips = () => ships;
 
-  return { placeShip, getOccupied, getShips, receiveAttack };
+  return { placeShip, getOccupied, getShips, receiveAttack, hits, reportWin };
 };
 
 module.exports = { Ship, Gameboard };

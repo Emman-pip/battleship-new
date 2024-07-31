@@ -98,6 +98,9 @@ describe("Receive attacks", () => {
     const game = Gameboard();
     expect(game.receiveAttack("A", 1)).toBeFalsy();
     expect(game.receiveAttack("A", 5)).toBeFalsy();
+    expect(String(game.hits)).toMatch(
+      String(["A", 1], ["A", 2], ["A", 3], ["A", 4], ["A", 5]),
+    );
   });
   test("hits", () => {
     const game = Gameboard();
@@ -107,5 +110,11 @@ describe("Receive attacks", () => {
     expect(game.receiveAttack("D", 1)).toBeTruthy();
     expect(game.getShips()[0][0].isSunk()).toBeTruthy();
     expect(game.getShips()[1][0].isSunk()).toBeFalsy();
+    expect(String(game.hits)).toMatch(String(["A", 1], ["A", 1]));
   });
+});
+
+describe("Report win", () => {
+  const game = Gameboard();
+  expect(game.reportWin).toBeTruthy();
 });
