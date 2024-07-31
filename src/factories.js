@@ -22,6 +22,8 @@ const Gameboard = () => {
 
   const ships = [];
 
+  const hits = [];
+
   const shipMaker = (start, end) => {
     if (start[0] == end[0]) {
       return Ship(end[1] - start[1] + 1);
@@ -64,9 +66,27 @@ const Gameboard = () => {
       ships[ships.length - 1][1].push(e);
     });
   };
+
+  const receiveAttack = (coord1, coord2) => {
+    if (String(hits).includes(String([coord1, coord2]))) {
+      throw new Error("Coordinates already hit.");
+    } else if (!String(ships).includes(String([coord1, coord2]))) {
+      hits.push([coord1, coord2]);
+      return false;
+    } else if (String(ships).includes(String([coord1, coord2]))) {
+      ships.map((e) => {
+        if (String(e).includes([coord1, coord2])) {
+          e[0].hit();
+        }
+      });
+      return true;
+    }
+  };
+
   const getOccupied = () => occupied;
   const getShips = () => ships;
-  return { placeShip, getOccupied, getShips };
+
+  return { placeShip, getOccupied, getShips, receiveAttack };
 };
 
 module.exports = { Ship, Gameboard };
