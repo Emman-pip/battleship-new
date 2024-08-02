@@ -100,4 +100,11 @@ const Gameboard = () => {
   return { placeShip, getOccupied, getShips, receiveAttack, hits, reportWin };
 };
 
-module.exports = { Ship, Gameboard };
+const Player = (isAI = false) => {
+  const board = Gameboard();
+  if (isAI) {
+    return "IS A COMPUTER";
+  }
+  return { board };
+};
+module.exports = { Ship, Gameboard, Player };
